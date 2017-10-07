@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+
+        </script>
+    </head>
+    <body>
+     </body>
+    <script type="text/javascript">
+            var socket = io();
+
+            socket.on('welcome', function(data) {
+                //addMessage(data.message);
+
+                // Respond with a message including this clients' id sent from the server
+                socket.emit('i am client', {data: 'foo!', id: data.id});
+            });
+            socket.on('time', function(data) {
+                //console.log(data);
+                var x = Math.abs(data.X);
+                var y = Math.abs(data.Y);
+                var z = Math.abs(data.Z);
+                var factor = 16/50;
+                console.log("x "+x+" y "+y+" z "+z);
+                console.log("x "+(x*factor)+" y "+(y*factor)+" z "+(z*factor));
+                var xx = parseInt((x*factor)).toString(16);
+                var yy = parseInt((y*factor)).toString(16);
+                var zz = parseInt((z*factor)).toString(16);
+                var html = document.getElementsByTagName("html")[0];
+                colour = "#"+xx+""+yy+""+zz;
+                console.log(colour);
+                html.style.background = colour;
+
+            });
+            socket.on('error', console.error.bind(console));
+     
+    </script>
+</html>
