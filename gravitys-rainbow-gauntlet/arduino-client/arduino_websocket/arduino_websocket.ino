@@ -84,7 +84,7 @@ void setup() {
           delay(1000);
       }
 
-    WiFiMulti.addAP("Zetland", "bumface98");
+    WiFiMulti.addAP("", "");
 
     //WiFi.disconnect();
     while(WiFiMulti.run() != WL_CONNECTED) {
