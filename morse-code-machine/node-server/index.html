@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+    <head>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+//https://en.wikipedia.org/wiki/Morse_code
+            var morse_table = {
+              "a":"._",
+              "b":"_...",
+              "c":"_._.",
+              "d":"_..",
+              "e":".",
+              "f":"._.",
+              "g":"__.",
+              "h":"....",
+              "i":"..",
+              "j":".___",
+              "k":"_._",
+              "l":"._..",
+              "m":"__",
+              "n":"_.",
+              "o":"___",
+              "p":".__.",
+              "q":"__._",
+              "r":"._.",
+              "s":"...",
+              "t":"_",
+              "u":".._",
+              "v":"..._",
+              "w":".__",
+              "x":"_.._",
+              "y":"_.__",
+              "z":"__..",
+
+              "1":".____",
+              "2":"..___",
+              "3":"...__",
+              "4":"...._",
+              "5":".....",
+              "6":"_....",
+              "7":"__...",
+              "8":"___..",
+              "9":"____.",
+              "0":"_____"
+
+            }
+
+            var socket = io();
+
+            socket.on('welcome', function(data) {
+                addMessage(data.message);
+
+                // Respond with a message including this clients' id sent from the server
+                socket.emit('i am client', {data: 'foo!', id: data.id});
+            });
+            socket.on('news', function(data) {
+                addMessage(data.message);
+            });
+            socket.on('time', function(data) {
+                addMessage(data.X);
+            });
+            socket.on('error', console.error.bind(console));
+            socket.on("message",function(data){
+               console.log("message");
+               console.log(data);
+            });
+
+            function addMessage(message) {
+                var text = document.createTextNode(message),
+                    el = document.createElement('li'),
+                    messages = document.getElementById('messages');
+
+//                el.appendChild(text);
+  //              messages.appendChild(el);
+            }
+
+            function translate_message(){
+               var message = document.getElementById("morse").value;
+               console.log("translating "+message);
+               var translation = "";
+               for(var i=0; i<message.length; i++){
+                 var m = message[i];
+                 var t = morse_table[m];
+                 if(t){
+                   translation = translation+""+t+" "; 
+                 }
+               }
+               console.log(translation);
+               socket.emit('morse', {data: translation});
+            }
+
+        </script>
+    </head>
+    <body>
+        <input type="text" id="morse"/>
+        <button onclick="translate_message()">submit</button>
+        <ul id='messages'></ul>
+    </body>
+</html>
