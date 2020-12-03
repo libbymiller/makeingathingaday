@@ -215,7 +215,7 @@ bool connectToSlack() {
   httpsClient.setTimeout(15000); // 15 Seconds
 
   HTTPClient http;
-  http.begin(httpsClient,"https://slack.com/api/rtm.connect?token=xoxb-84383383380-0yphtPt5BkJtglPOkF6aWgw6");
+  http.begin(httpsClient,"https://slack.com/api/rtm.connect?token=" SLACK_BOT_TOKEN");
   int httpCode = http.GET();
 
   if (httpCode != HTTP_CODE_OK) {
